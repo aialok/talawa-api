@@ -1710,6 +1710,24 @@ export type UserEdge = {
   node: User;
 };
 
+export type UserEventStatus = {
+  __typename?: 'UserEventStatus';
+  _id: Scalars['ID']['output'];
+  event: Event;
+  isCheckedIn?: Maybe<Scalars['Boolean']['output']>;
+  isInvited?: Maybe<Scalars['Boolean']['output']>;
+  isRegistered?: Maybe<Scalars['Boolean']['output']>;
+  user: User;
+};
+
+export type UserEventStatusInput = {
+  eventID: Scalars['ID']['input'];
+  isCheckedIn?: InputMaybe<Scalars['Boolean']['input']>;
+  isInvited?: InputMaybe<Scalars['Boolean']['input']>;
+  isRegistered?: InputMaybe<Scalars['Boolean']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
 export type UserInput = {
   appLanguageCode?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['EmailAddress']['input'];
@@ -2048,6 +2066,8 @@ export type ResolversTypes = {
   UserConnection: ResolverTypeWrapper<Omit<UserConnection, 'edges'> & { edges: Array<Maybe<ResolversTypes['User']>> }>;
   UserCustomData: ResolverTypeWrapper<UserCustomData>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
+  UserEventStatus: ResolverTypeWrapper<Omit<UserEventStatus, 'event' | 'user'> & { event: ResolversTypes['Event'], user: ResolversTypes['User'] }>;
+  UserEventStatusInput: UserEventStatusInput;
   UserInput: UserInput;
   UserOrderByInput: UserOrderByInput;
   UserPhone: ResolverTypeWrapper<UserPhone>;
@@ -2170,6 +2190,8 @@ export type ResolversParentTypes = {
   UserConnection: Omit<UserConnection, 'edges'> & { edges: Array<Maybe<ResolversParentTypes['User']>> };
   UserCustomData: UserCustomData;
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
+  UserEventStatus: Omit<UserEventStatus, 'event' | 'user'> & { event: ResolversParentTypes['Event'], user: ResolversParentTypes['User'] };
+  UserEventStatusInput: UserEventStatusInput;
   UserInput: UserInput;
   UserPhone: UserPhone;
   UserPhoneInput: UserPhoneInput;
@@ -2848,6 +2870,16 @@ export type UserEdgeResolvers<ContextType = any, ParentType extends ResolversPar
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserEventStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserEventStatus'] = ResolversParentTypes['UserEventStatus']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  event?: Resolver<ResolversTypes['Event'], ParentType, ContextType>;
+  isCheckedIn?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isInvited?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isRegistered?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type UserPhoneResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserPhone'] = ResolversParentTypes['UserPhone']> = {
   home?: Resolver<Maybe<ResolversTypes['PhoneNumber']>, ParentType, ContextType>;
   mobile?: Resolver<Maybe<ResolversTypes['PhoneNumber']>, ParentType, ContextType>;
@@ -2961,6 +2993,7 @@ export type Resolvers<ContextType = any> = {
   UserConnection?: UserConnectionResolvers<ContextType>;
   UserCustomData?: UserCustomDataResolvers<ContextType>;
   UserEdge?: UserEdgeResolvers<ContextType>;
+  UserEventStatus?: UserEventStatusResolvers<ContextType>;
   UserPhone?: UserPhoneResolvers<ContextType>;
   UserTag?: UserTagResolvers<ContextType>;
   UserTagEdge?: UserTagEdgeResolvers<ContextType>;

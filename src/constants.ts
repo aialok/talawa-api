@@ -411,6 +411,12 @@ export const USER_ALREADY_CHECKED_IN = {
   PARAM: "user.alreadyCheckedIn",
 };
 
+export const USER_ALREADY_INVITED_FOR_EVENT = {
+  MESSAGE: "The user has already been checked for this event",
+  CODE: "user.alreadyInvited",
+  PARAM: "user.alreadyInvited",
+};
+
 export const SAMPLE_ORGANIZATION_ALREADY_EXISTS = {
   DESC: "Sample Organization was already generated",
   CODE: "sampleOrganization.duplicate",

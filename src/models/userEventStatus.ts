@@ -41,7 +41,7 @@ const userEventStatus = new Schema({
     default: false,
   },
 
-  isAttended: {
+  isCheckedIn: {
     type: Boolean,
     require: true,
     default: false,

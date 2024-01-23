@@ -1013,6 +1013,23 @@ type UserEdge {
   node: User!
 }
 
+type UserEventStatus {
+  _id: ID!
+  event: Event!
+  isCheckedIn: Boolean
+  isInvited: Boolean
+  isRegistered: Boolean
+  user: User!
+}
+
+input UserEventStatusInput {
+  eventID: ID!
+  isCheckedIn: Boolean
+  isInvited: Boolean
+  isRegistered: Boolean
+  userId: ID!
+}
+
 input UserInput {
   appLanguageCode: String
   email: EmailAddress!

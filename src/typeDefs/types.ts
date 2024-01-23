@@ -450,4 +450,13 @@ export const types = gql`
     edges: [UserEdge!]!
     pageInfo: ConnectionPageInfo!
   }
+
+  type UserEventStatus {
+    _id: ID!
+    user: User!
+    event: Event!
+    isInvited: Boolean
+    isRegistered: Boolean
+    isCheckedIn: Boolean
+  }
 `;
