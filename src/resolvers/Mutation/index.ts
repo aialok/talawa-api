@@ -85,6 +85,8 @@ import { updateUserTag } from "./updateUserTag";
 import { updateUserType } from "./updateUserType";
 import { deleteAdvertisementById } from "./deleteAdvertisementById";
 import { updateAdvertisement } from "./updateAdvertisement";
+import { inviteUserToEvent } from "./inviteUserToEvent";
+import { registerUserForEvent } from "./registerUserForEvent";
 
 export const Mutation: MutationResolvers = {
   acceptAdmin,
@@ -122,6 +124,7 @@ export const Mutation: MutationResolvers = {
   deleteDonationById,
   deleteAdvertisementById,
   forgotPassword,
+  inviteUserToEvent,
   joinPublicOrganization,
   leaveOrganization,
   likeComment,
@@ -132,6 +135,7 @@ export const Mutation: MutationResolvers = {
   recaptcha,
   refreshToken,
   registerForEvent,
+  registerUserForEvent,
   rejectAdmin,
   rejectMembershipRequest,
   removeAdmin,

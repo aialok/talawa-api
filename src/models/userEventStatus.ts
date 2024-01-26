@@ -11,42 +11,41 @@ export interface InterfaceUserEventStatus {
   CheckId: PopulatedDoc<InterfaceCheckIn & Document> | null;
 }
 
-const userEventStatus = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  eventId: {
-    type: Schema.Types.ObjectId,
-    ref: "Event",
-    required: true,
-  },
-  checkInId: {
-    type: Schema.Types.ObjectId,
-    required: false,
-    default: null,
-    ref: "CheckIn",
-  },
+const userEventStatus = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    eventId: {
+      type: Schema.Types.ObjectId,
+      ref: "Event",
+      required: true,
+    },
 
-  isInvited: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
+    isInvited: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
 
-  isRegistered: {
-    type: Boolean,
-    required: false,
-    default: false,
-  },
+    isRegistered: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
 
-  isCheckedIn: {
-    type: Boolean,
-    require: true,
-    default: false,
+    isCheckedIn: {
+      type: Boolean,
+      require: true,
+      default: false,
+    },
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
 userEventStatus.index(
   { userId: 1, eventId: 1 },

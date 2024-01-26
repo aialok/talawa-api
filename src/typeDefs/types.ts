@@ -458,5 +458,7 @@ export const types = gql`
     isInvited: Boolean
     isRegistered: Boolean
     isCheckedIn: Boolean
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 `;

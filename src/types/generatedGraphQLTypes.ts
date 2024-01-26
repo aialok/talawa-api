@@ -572,16 +572,19 @@ export type Mutation = {
   deleteAdvertisementById: DeletePayload;
   deleteDonationById: DeletePayload;
   forgotPassword: Scalars['Boolean']['output'];
+  inviteUserToEvent: UserEventStatus;
   joinPublicOrganization: User;
   leaveOrganization: User;
   likeComment?: Maybe<Comment>;
   likePost?: Maybe<Post>;
   login: AuthData;
   logout: Scalars['Boolean']['output'];
+  markUserCheckedInForEvent: UserEventStatus;
   otp: OtpData;
   recaptcha: Scalars['Boolean']['output'];
   refreshToken: ExtendSession;
   registerForEvent: Event;
+  registerUserForEvent: UserEventStatus;
   rejectAdmin: Scalars['Boolean']['output'];
   rejectMembershipRequest: MembershipRequest;
   removeAdmin: User;
@@ -816,6 +819,12 @@ export type MutationForgotPasswordArgs = {
 };
 
 
+export type MutationInviteUserToEventArgs = {
+  eventId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
 export type MutationJoinPublicOrganizationArgs = {
   organizationId: Scalars['ID']['input'];
 };
@@ -841,6 +850,12 @@ export type MutationLoginArgs = {
 };
 
 
+export type MutationMarkUserCheckedInForEventArgs = {
+  eventId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+};
+
+
 export type MutationOtpArgs = {
   data: OtpInput;
 };
@@ -858,6 +873,12 @@ export type MutationRefreshTokenArgs = {
 
 export type MutationRegisterForEventArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationRegisterUserForEventArgs = {
+  eventId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -1713,19 +1734,13 @@ export type UserEdge = {
 export type UserEventStatus = {
   __typename?: 'UserEventStatus';
   _id: Scalars['ID']['output'];
+  createdAt: Scalars['DateTime']['output'];
   event: Event;
   isCheckedIn?: Maybe<Scalars['Boolean']['output']>;
   isInvited?: Maybe<Scalars['Boolean']['output']>;
   isRegistered?: Maybe<Scalars['Boolean']['output']>;
+  updatedAt: Scalars['DateTime']['output'];
   user: User;
-};
-
-export type UserEventStatusInput = {
-  eventID: Scalars['ID']['input'];
-  isCheckedIn?: InputMaybe<Scalars['Boolean']['input']>;
-  isInvited?: InputMaybe<Scalars['Boolean']['input']>;
-  isRegistered?: InputMaybe<Scalars['Boolean']['input']>;
-  userId: Scalars['ID']['input'];
 };
 
 export type UserInput = {
@@ -2067,7 +2082,6 @@ export type ResolversTypes = {
   UserCustomData: ResolverTypeWrapper<UserCustomData>;
   UserEdge: ResolverTypeWrapper<Omit<UserEdge, 'node'> & { node: ResolversTypes['User'] }>;
   UserEventStatus: ResolverTypeWrapper<Omit<UserEventStatus, 'event' | 'user'> & { event: ResolversTypes['Event'], user: ResolversTypes['User'] }>;
-  UserEventStatusInput: UserEventStatusInput;
   UserInput: UserInput;
   UserOrderByInput: UserOrderByInput;
   UserPhone: ResolverTypeWrapper<UserPhone>;
@@ -2191,7 +2205,6 @@ export type ResolversParentTypes = {
   UserCustomData: UserCustomData;
   UserEdge: Omit<UserEdge, 'node'> & { node: ResolversParentTypes['User'] };
   UserEventStatus: Omit<UserEventStatus, 'event' | 'user'> & { event: ResolversParentTypes['Event'], user: ResolversParentTypes['User'] };
-  UserEventStatusInput: UserEventStatusInput;
   UserInput: UserInput;
   UserPhone: UserPhone;
   UserPhoneInput: UserPhoneInput;
@@ -2578,16 +2591,19 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteAdvertisementById?: Resolver<ResolversTypes['DeletePayload'], ParentType, ContextType, RequireFields<MutationDeleteAdvertisementByIdArgs, 'id'>>;
   deleteDonationById?: Resolver<ResolversTypes['DeletePayload'], ParentType, ContextType, RequireFields<MutationDeleteDonationByIdArgs, 'id'>>;
   forgotPassword?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationForgotPasswordArgs, 'data'>>;
+  inviteUserToEvent?: Resolver<ResolversTypes['UserEventStatus'], ParentType, ContextType, RequireFields<MutationInviteUserToEventArgs, 'eventId' | 'userId'>>;
   joinPublicOrganization?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationJoinPublicOrganizationArgs, 'organizationId'>>;
   leaveOrganization?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationLeaveOrganizationArgs, 'organizationId'>>;
   likeComment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType, RequireFields<MutationLikeCommentArgs, 'id'>>;
   likePost?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType, RequireFields<MutationLikePostArgs, 'id'>>;
   login?: Resolver<ResolversTypes['AuthData'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'data'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  markUserCheckedInForEvent?: Resolver<ResolversTypes['UserEventStatus'], ParentType, ContextType, RequireFields<MutationMarkUserCheckedInForEventArgs, 'eventId' | 'userId'>>;
   otp?: Resolver<ResolversTypes['OtpData'], ParentType, ContextType, RequireFields<MutationOtpArgs, 'data'>>;
   recaptcha?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRecaptchaArgs, 'data'>>;
   refreshToken?: Resolver<ResolversTypes['ExtendSession'], ParentType, ContextType, RequireFields<MutationRefreshTokenArgs, 'refreshToken'>>;
   registerForEvent?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationRegisterForEventArgs, 'id'>>;
+  registerUserForEvent?: Resolver<ResolversTypes['UserEventStatus'], ParentType, ContextType, RequireFields<MutationRegisterUserForEventArgs, 'eventId' | 'userId'>>;
   rejectAdmin?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationRejectAdminArgs, 'id'>>;
   rejectMembershipRequest?: Resolver<ResolversTypes['MembershipRequest'], ParentType, ContextType, RequireFields<MutationRejectMembershipRequestArgs, 'membershipRequestId'>>;
   removeAdmin?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRemoveAdminArgs, 'data'>>;
@@ -2872,10 +2888,12 @@ export type UserEdgeResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type UserEventStatusResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserEventStatus'] = ResolversParentTypes['UserEventStatus']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   event?: Resolver<ResolversTypes['Event'], ParentType, ContextType>;
   isCheckedIn?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isInvited?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   isRegistered?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

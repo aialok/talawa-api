@@ -8,7 +8,13 @@ import {
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
 import { errors, requestContext } from "../../libraries";
 import type { InterfaceEvent } from "../../models";
-import { User, Event, EventAttendee, CheckIn } from "../../models";
+import {
+  User,
+  Event,
+  EventAttendee,
+  CheckIn,
+  UserEventStatus,
+} from "../../models";
 import { findEventsInCache } from "../../services/EventCache/findEventInCache";
 import { cacheEvents } from "../../services/EventCache/cacheEvents";
 import { Types } from "mongoose";
@@ -101,7 +107,7 @@ export const checkIn: MutationResolvers["checkIn"] = async (
   }
 
   const checkIn = await CheckIn.create({
-    eventAttendeeId: attendeeData!._id,
+    eventAttendeeId: attendeeData._id,
     allotedSeat: args.data.allotedSeat,
     allotedRoom: args.data.allotedRoom,
   });
@@ -115,6 +121,27 @@ export const checkIn: MutationResolvers["checkIn"] = async (
       checkInId: checkIn._id,
     }
   );
+
+  const userEventStatus = await UserEventStatus.findOne({
+    userId: args.data.userId,
+    eventId: args.data.userId,
+  });
+
+  if (userEventStatus != null) {
+    await UserEventStatus.create({
+      userId: args.data.userId,
+      eventId: args.data.userId,
+      isCheckedIn: true,
+    });
+  } else {
+    await UserEventStatus.findOneAndUpdate(
+      {
+        userId: args.data.userId,
+        eventId: args.data.userId,
+      },
+      { isCheckedIn: true }
+    );
+  }
 
   return checkIn.toObject();
 };

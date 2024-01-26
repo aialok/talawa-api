@@ -1,7 +1,7 @@
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
 import { errors, requestContext } from "../../libraries";
 import type { InterfaceEvent } from "../../models";
-import { User, Event, EventAttendee } from "../../models";
+import { User, Event, EventAttendee, UserEventStatus } from "../../models";
 import {
   EVENT_NOT_FOUND_ERROR,
   REGISTRANT_ALREADY_EXIST_ERROR,
@@ -75,6 +75,27 @@ export const registerForEvent: MutationResolvers["registerForEvent"] = async (
       },
     }
   );
+
+  const userEventStatus = await UserEventStatus.findOne({
+    userId: context.userId,
+    eventId: args.id,
+  });
+
+  console.log(userEventStatus);
+
+  if (userEventStatus) {
+    // If User is Invited already.
+    userEventStatus.isRegistered = true;
+    await userEventStatus.save();
+  } else {
+    // If User is directly registering for the event.
+
+    await UserEventStatus.create({
+      userId: context.userId,
+      eventId: args.id,
+      isRegistered: true,
+    });
+  }
 
   await EventAttendee.create({
     userId: context.userId,

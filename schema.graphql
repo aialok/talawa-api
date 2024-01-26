@@ -510,16 +510,19 @@ type Mutation {
   deleteAdvertisementById(id: ID!): DeletePayload!
   deleteDonationById(id: ID!): DeletePayload!
   forgotPassword(data: ForgotPasswordData!): Boolean!
+  inviteUserToEvent(eventId: ID!, userId: ID!): UserEventStatus!
   joinPublicOrganization(organizationId: ID!): User!
   leaveOrganization(organizationId: ID!): User!
   likeComment(id: ID!): Comment
   likePost(id: ID!): Post
   login(data: LoginInput!): AuthData!
   logout: Boolean!
+  markUserCheckedInForEvent(eventId: ID!, userId: ID!): UserEventStatus!
   otp(data: OTPInput!): OtpData!
   recaptcha(data: RecaptchaVerification!): Boolean!
   refreshToken(refreshToken: String!): ExtendSession!
   registerForEvent(id: ID!): Event!
+  registerUserForEvent(eventId: ID!, userId: ID!): UserEventStatus!
   rejectAdmin(id: ID!): Boolean!
   rejectMembershipRequest(membershipRequestId: ID!): MembershipRequest!
   removeAdmin(data: UserAndOrganizationInput!): User!
@@ -1015,19 +1018,13 @@ type UserEdge {
 
 type UserEventStatus {
   _id: ID!
+  createdAt: DateTime!
   event: Event!
   isCheckedIn: Boolean
   isInvited: Boolean
   isRegistered: Boolean
+  updatedAt: DateTime!
   user: User!
-}
-
-input UserEventStatusInput {
-  eventID: ID!
-  isCheckedIn: Boolean
-  isInvited: Boolean
-  isRegistered: Boolean
-  userId: ID!
 }
 
 input UserInput {

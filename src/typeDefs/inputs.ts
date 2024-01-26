@@ -301,14 +301,6 @@ export const inputs = gql`
     state: String
   }
 
-  input UserEventStatusInput {
-    userId: ID!
-    eventID: ID!
-    isInvited: Boolean
-    isRegistered: Boolean
-    isCheckedIn: Boolean
-  }
-
   input UserPhoneInput {
     home: PhoneNumber
     mobile: PhoneNumber

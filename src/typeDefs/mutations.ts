@@ -107,6 +107,8 @@ export const mutations = gql`
 
     forgotPassword(data: ForgotPasswordData!): Boolean!
 
+    inviteUserToEvent(userId: ID!, eventId: ID!): UserEventStatus!
+
     joinPublicOrganization(organizationId: ID!): User! @auth
 
     leaveOrganization(organizationId: ID!): User! @auth
@@ -119,6 +121,8 @@ export const mutations = gql`
 
     logout: Boolean! @auth
 
+    markUserCheckedInForEvent(userId: ID!, eventId: ID!): UserEventStatus!
+
     otp(data: OTPInput!): OtpData!
 
     recaptcha(data: RecaptchaVerification!): Boolean!
@@ -126,6 +130,8 @@ export const mutations = gql`
     refreshToken(refreshToken: String!): ExtendSession!
 
     registerForEvent(id: ID!): Event! @auth
+
+    registerUserForEvent(userId: ID!, eventId: ID!): UserEventStatus!
 
     rejectAdmin(id: ID!): Boolean! @auth @role(requires: SUPERADMIN)
 
