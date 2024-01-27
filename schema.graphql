@@ -814,10 +814,12 @@ type Query {
   eventsByOrganization(id: ID, orderBy: EventOrderByInput): [Event]
   eventsByOrganizationConnection(first: Int, orderBy: EventOrderByInput, skip: Int, where: EventWhereInput): [Event!]!
   getAdvertisements: [Advertisement]
+  getAllUserEventStatus(eventId: ID!): [UserEventStatus!]
   getDonationById(id: ID!): Donation!
   getDonationByOrgId(orgId: ID!): [Donation]
   getDonationByOrgIdConnection(first: Int, orgId: ID!, skip: Int, where: DonationWhereInput): [Donation!]!
   getPlugins: [Plugin]
+  getUserEventStatus(eventId: ID!, userId: ID!): UserEventStatus!
   getlanguage(lang_code: String!): [Translation]
   hasSubmittedFeedback(eventId: ID!, userId: ID!): Boolean
   isSampleOrganization(id: ID!): Boolean!

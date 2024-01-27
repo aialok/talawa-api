@@ -44,6 +44,10 @@ export const queries = gql`
     getPlugins: [Plugin]
     getAdvertisements: [Advertisement]
 
+    getUserEventStatus(userId: ID!, eventId: ID!): UserEventStatus!
+
+    getAllUserEventStatus(eventId: ID!): [UserEventStatus!]
+
     isSampleOrganization(id: ID!): Boolean!
     hasSubmittedFeedback(userId: ID!, eventId: ID!): Boolean
 

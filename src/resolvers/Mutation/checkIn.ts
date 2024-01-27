@@ -123,21 +123,21 @@ export const checkIn: MutationResolvers["checkIn"] = async (
   );
 
   const userEventStatus = await UserEventStatus.findOne({
-    userId: args.data.userId,
-    eventId: args.data.userId,
+    user: args.data.userId,
+    event: args.data.userId,
   });
 
   if (userEventStatus != null) {
     await UserEventStatus.create({
-      userId: args.data.userId,
-      eventId: args.data.userId,
+      user: args.data.userId,
+      event: args.data.userId,
       isCheckedIn: true,
     });
   } else {
     await UserEventStatus.findOneAndUpdate(
       {
-        userId: args.data.userId,
-        eventId: args.data.userId,
+        user: args.data.userId,
+        event: args.data.userId,
       },
       { isCheckedIn: true }
     );

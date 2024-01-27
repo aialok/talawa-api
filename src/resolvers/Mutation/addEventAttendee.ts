@@ -91,11 +91,9 @@ export const addEventAttendee: MutationResolvers["addEventAttendee"] = async (
   }
 
   const userEventStatus = await UserEventStatus.findOne({
-    userId: args.data.userId,
-    eventId: args.data.eventId,
+    user: args.data.userId,
+    event: args.data.eventId,
   });
-
-  console.log(userEventStatus);
 
   if (userEventStatus) {
     //If User is Invited already Register
@@ -105,8 +103,8 @@ export const addEventAttendee: MutationResolvers["addEventAttendee"] = async (
     // User is directly registering for the event
 
     await UserEventStatus.create({
-      userId: args.data.userId,
-      eventId: args.data.eventId,
+      user: args.data.userId,
+      event: args.data.eventId,
       isInvited: true,
     });
   }

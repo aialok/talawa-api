@@ -13,12 +13,12 @@ export interface InterfaceUserEventStatus {
 
 const userEventStatus = new Schema(
   {
-    userId: {
+    user: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    eventId: {
+    event: {
       type: Schema.Types.ObjectId,
       ref: "Event",
       required: true,

@@ -74,8 +74,8 @@ export const markUserCheckedInForEvent: MutationResolvers["markUserCheckedInForE
     }
 
     const isUserAlreadyInvitedForEvent = await UserEventStatus.findOne({
-      userId,
-      eventId,
+      user: userId,
+      event: eventId,
     });
 
     if (isUserAlreadyInvitedForEvent) {
@@ -85,8 +85,8 @@ export const markUserCheckedInForEvent: MutationResolvers["markUserCheckedInForE
     }
 
     const checkedInUser = await UserEventStatus.create({
-      userId,
-      eventId,
+      user: userId,
+      event: eventId,
       isCheckedIn: true,
     });
 

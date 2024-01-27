@@ -1,9 +1,10 @@
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
 import { errors, requestContext } from "../../libraries";
 import type { InterfaceEvent } from "../../models";
-import { User, Event, UserEventStatus } from "../../models";
+import { User, Event, UserEventStatus, EventAttendee } from "../../models";
 import {
   EVENT_NOT_FOUND_ERROR,
+  USER_ALREADY_INVITED_FOR_EVENT,
   USER_NOT_AUTHORIZED_ERROR,
   USER_NOT_FOUND_ERROR,
 } from "../../constants";
@@ -17,7 +18,7 @@ export const inviteUserToEvent: MutationResolvers["inviteUserToEvent"] = async (
   context
 ) => {
   const currentUser = await User.findOne({
-    _id: userId, // context
+    _id: context.userId, // context
   });
 
   if (!currentUser) {
@@ -76,9 +77,56 @@ export const inviteUserToEvent: MutationResolvers["inviteUserToEvent"] = async (
     );
   }
 
-  const invitedUser = await UserEventStatus.create({
+  const currentUserIsEventAttendee = await EventAttendee.exists({
     userId,
     eventId,
+  });
+
+  // Check If user is already a attendee or invited
+  if (currentUserIsEventAttendee) {
+    throw new errors.InputValidationError(
+      requestContext.translate(USER_ALREADY_INVITED_FOR_EVENT.MESSAGE),
+      USER_ALREADY_INVITED_FOR_EVENT.CODE,
+      USER_ALREADY_INVITED_FOR_EVENT.PARAM
+    );
+  }
+
+  //   // Adds event._id to registeredEvents list of currentUser with _id === args.userId
+
+  await User.updateOne(
+    {
+      _id: userId,
+    },
+    {
+      $push: {
+        registeredEvents: event._id,
+      },
+    }
+  );
+
+  // Check user is already registred or checkIn for event
+
+  const userEventStatus = await UserEventStatus.findOne({
+    user: userId,
+    event: eventId,
+  });
+
+  if (userEventStatus) {
+    throw new errors.InputValidationError(
+      requestContext.translate(USER_ALREADY_INVITED_FOR_EVENT.MESSAGE),
+      USER_ALREADY_INVITED_FOR_EVENT.CODE,
+      USER_ALREADY_INVITED_FOR_EVENT.PARAM
+    );
+  }
+
+  await EventAttendee.create({
+    userId,
+    eventId,
+  });
+
+  const invitedUser = await UserEventStatus.create({
+    user: userId,
+    event: eventId,
     isInvited: true,
   });
 

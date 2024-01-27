@@ -1350,10 +1350,12 @@ export type Query = {
   eventsByOrganization?: Maybe<Array<Maybe<Event>>>;
   eventsByOrganizationConnection: Array<Event>;
   getAdvertisements?: Maybe<Array<Maybe<Advertisement>>>;
+  getAllUserEventStatus?: Maybe<Array<UserEventStatus>>;
   getDonationById: Donation;
   getDonationByOrgId?: Maybe<Array<Maybe<Donation>>>;
   getDonationByOrgIdConnection: Array<Donation>;
   getPlugins?: Maybe<Array<Maybe<Plugin>>>;
+  getUserEventStatus: UserEventStatus;
   getlanguage?: Maybe<Array<Maybe<Translation>>>;
   hasSubmittedFeedback?: Maybe<Scalars['Boolean']['output']>;
   isSampleOrganization: Scalars['Boolean']['output'];
@@ -1420,6 +1422,11 @@ export type QueryEventsByOrganizationConnectionArgs = {
 };
 
 
+export type QueryGetAllUserEventStatusArgs = {
+  eventId: Scalars['ID']['input'];
+};
+
+
 export type QueryGetDonationByIdArgs = {
   id: Scalars['ID']['input'];
 };
@@ -1435,6 +1442,12 @@ export type QueryGetDonationByOrgIdConnectionArgs = {
   orgId: Scalars['ID']['input'];
   skip?: InputMaybe<Scalars['Int']['input']>;
   where?: InputMaybe<DonationWhereInput>;
+};
+
+
+export type QueryGetUserEventStatusArgs = {
+  eventId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -2766,10 +2779,12 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   eventsByOrganization?: Resolver<Maybe<Array<Maybe<ResolversTypes['Event']>>>, ParentType, ContextType, Partial<QueryEventsByOrganizationArgs>>;
   eventsByOrganizationConnection?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType, Partial<QueryEventsByOrganizationConnectionArgs>>;
   getAdvertisements?: Resolver<Maybe<Array<Maybe<ResolversTypes['Advertisement']>>>, ParentType, ContextType>;
+  getAllUserEventStatus?: Resolver<Maybe<Array<ResolversTypes['UserEventStatus']>>, ParentType, ContextType, RequireFields<QueryGetAllUserEventStatusArgs, 'eventId'>>;
   getDonationById?: Resolver<ResolversTypes['Donation'], ParentType, ContextType, RequireFields<QueryGetDonationByIdArgs, 'id'>>;
   getDonationByOrgId?: Resolver<Maybe<Array<Maybe<ResolversTypes['Donation']>>>, ParentType, ContextType, RequireFields<QueryGetDonationByOrgIdArgs, 'orgId'>>;
   getDonationByOrgIdConnection?: Resolver<Array<ResolversTypes['Donation']>, ParentType, ContextType, RequireFields<QueryGetDonationByOrgIdConnectionArgs, 'orgId'>>;
   getPlugins?: Resolver<Maybe<Array<Maybe<ResolversTypes['Plugin']>>>, ParentType, ContextType>;
+  getUserEventStatus?: Resolver<ResolversTypes['UserEventStatus'], ParentType, ContextType, RequireFields<QueryGetUserEventStatusArgs, 'eventId' | 'userId'>>;
   getlanguage?: Resolver<Maybe<Array<Maybe<ResolversTypes['Translation']>>>, ParentType, ContextType, RequireFields<QueryGetlanguageArgs, 'lang_code'>>;
   hasSubmittedFeedback?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<QueryHasSubmittedFeedbackArgs, 'eventId' | 'userId'>>;
   isSampleOrganization?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryIsSampleOrganizationArgs, 'id'>>;

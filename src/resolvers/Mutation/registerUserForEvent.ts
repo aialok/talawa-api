@@ -17,8 +17,6 @@ export const registerUserForEvent: MutationResolvers["registerUserForEvent"] =
       _id: userId, // context
     });
 
-    console.log(eventId, userId);
-
     if (!currentUser) {
       throw new errors.NotFoundError(
         requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
@@ -35,8 +33,6 @@ export const registerUserForEvent: MutationResolvers["registerUserForEvent"] =
       event = await Event.findOne({
         _id: eventId,
       });
-
-      console.log("dsfhdsfhdnsifhdsfidshfsdifhdsi");
 
       if (event) {
         await cacheEvents([event]);
@@ -77,11 +73,9 @@ export const registerUserForEvent: MutationResolvers["registerUserForEvent"] =
     }
 
     const isUserAlreadyInvited = await UserEventStatus.findOne({
-      userId: userId,
-      eventId: eventId,
+      user: userId,
+      event: eventId,
     });
-
-    console.log("IsUserAlreadyInvited ", isUserAlreadyInvited);
 
     if (isUserAlreadyInvited) {
       isUserAlreadyInvited.isRegistered = true;
@@ -90,8 +84,8 @@ export const registerUserForEvent: MutationResolvers["registerUserForEvent"] =
     }
 
     const registeredUser = await UserEventStatus.create({
-      userId,
-      eventId,
+      user: userId,
+      event: eventId,
       isRegistered: true,
     });
 

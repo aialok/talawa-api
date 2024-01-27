@@ -26,7 +26,9 @@ import { user } from "./user";
 import { userLanguage } from "./userLanguage";
 import { users } from "./users";
 import { getAdvertisements } from "./getAdvertisements";
+import { getUserEventStatus } from "./getUserEventStatus";
 import { usersConnection } from "./usersConnection";
+import { getAllUserEventStatus } from "./getAllUserEventStatus";
 
 export const Query: QueryResolvers = {
   checkAuth,
@@ -57,4 +59,6 @@ export const Query: QueryResolvers = {
   userLanguage,
   users,
   usersConnection,
+  getUserEventStatus,
+  getAllUserEventStatus,
 };
